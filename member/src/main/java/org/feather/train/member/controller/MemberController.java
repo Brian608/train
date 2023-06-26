@@ -1,8 +1,12 @@
 package org.feather.train.member.controller;
 
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import org.feather.train.common.resp.CommonResp;
+import org.feather.train.member.req.MemberRegisterReq;
 import org.feather.train.member.service.MemberService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +27,15 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping("/count")
-    public  Integer count(){return memberService.count();}
+    public CommonResp<Integer> count(){
+        return new CommonResp<>(memberService.count());
+    }
+
+
+
+    @PostMapping("/register")
+    public CommonResp<Long> register(@Valid MemberRegisterReq req) {
+        return new CommonResp<>(memberService.register(req));
+    }
 
 }
