@@ -1,5 +1,7 @@
 package org.feather.train.member.req;
 
+import jakarta.validation.constraints.NotBlank;
+
 /**
  * @projectName: train
  * @package: org.feather.train.member.req
@@ -11,6 +13,7 @@ package org.feather.train.member.req;
  */
 
 public class MemberRegisterReq {
+    @NotBlank(message = "【手机号】不能为空")
     private String mobile;
 
     public String getMobile() {

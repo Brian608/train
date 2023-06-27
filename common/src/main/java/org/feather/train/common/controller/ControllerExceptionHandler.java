@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
-
     private static final Logger LOG = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
     /**
