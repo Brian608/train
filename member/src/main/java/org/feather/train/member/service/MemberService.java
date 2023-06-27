@@ -2,6 +2,8 @@ package org.feather.train.member.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import jakarta.annotation.Resource;
+import org.feather.train.common.exception.BusinessException;
+import org.feather.train.common.exception.BusinessExceptionEnum;
 import org.feather.train.member.domain.Member;
 import org.feather.train.member.domain.MemberExample;
 import org.feather.train.member.mapper.MemberMapper;
@@ -34,7 +36,7 @@ public class MemberService {
         memberExample.createCriteria().andMobileEqualTo(mobile);
         List<Member> memberList = memberMapper.selectByExample(memberExample);
         if (CollectionUtil.isNotEmpty(memberList)){
-
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_EXIST);
         }
         Member member=new Member();
         member.setId(System.currentTimeMillis());
