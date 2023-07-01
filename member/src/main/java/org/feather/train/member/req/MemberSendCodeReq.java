@@ -6,14 +6,14 @@ import jakarta.validation.constraints.Pattern;
 /**
  * @projectName: train
  * @package: org.feather.train.member.req
- * @className: MemberRegisterReq
+ * @className: MemberSendCodeReq
  * @author: feather
  * @description: TODO
- * @since: 2023-06-26 21:50
+ * @since: 2023-07-02 7:37
  * @version: 1.0
  */
 
-public class MemberRegisterReq {
+public class MemberSendCodeReq {
     @NotBlank(message = "【手机号】不能为空")
     @Pattern(regexp = "^1\\d{10}$", message = "手机号码格式错误")
     private String mobile;
@@ -28,7 +28,7 @@ public class MemberRegisterReq {
 
     @Override
     public String toString() {
-        return "MemberRegisterReq{" +
+        return "MemberSendCodeReq{" +
                 "mobile='" + mobile + '\'' +
                 '}';
     }

@@ -4,11 +4,9 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.feather.train.common.resp.CommonResp;
 import org.feather.train.member.req.MemberRegisterReq;
+import org.feather.train.member.req.MemberSendCodeReq;
 import org.feather.train.member.service.MemberService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @projectName: train
@@ -34,8 +32,14 @@ public class MemberController {
 
 
     @PostMapping("/register")
-    public CommonResp<Long> register(@Valid MemberRegisterReq req) {
+    public CommonResp<Long> register(@Valid  @RequestBody MemberRegisterReq req) {
         return new CommonResp<>(memberService.register(req));
+    }
+
+    @PostMapping("/send-code")
+    public CommonResp<Long> sendCode(@Valid @RequestBody MemberSendCodeReq req) {
+        memberService.sendCode(req);
+        return new CommonResp<>();
     }
 
 }
