@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import jakarta.annotation.Resource;
 import org.feather.train.common.exception.BusinessException;
 import org.feather.train.common.exception.BusinessExceptionEnum;
+import org.feather.train.common.utils.JwtUtil;
 import org.feather.train.common.utils.SnowUtil;
 import org.feather.train.member.domain.Member;
 import org.feather.train.member.domain.MemberExample;
@@ -96,6 +97,8 @@ public class MemberService {
         }
 
         MemberLoginResp memberLoginResp = BeanUtil.copyProperties(memberDB, MemberLoginResp.class);
+        String token = JwtUtil.createToken(memberLoginResp.getId(), memberLoginResp.getMobile());
+        memberLoginResp.setToken(token);
         return memberLoginResp;
     }
 
