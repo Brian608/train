@@ -1,5 +1,6 @@
 package org.feather.train.member.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import jakarta.annotation.Resource;
@@ -9,8 +10,10 @@ import org.feather.train.common.utils.SnowUtil;
 import org.feather.train.member.domain.Member;
 import org.feather.train.member.domain.MemberExample;
 import org.feather.train.member.mapper.MemberMapper;
+import org.feather.train.member.req.MemberLoginReq;
 import org.feather.train.member.req.MemberRegisterReq;
 import org.feather.train.member.req.MemberSendCodeReq;
+import org.feather.train.member.resp.MemberLoginResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -76,6 +79,26 @@ public class MemberService {
         // 对接短信通道，发送短信
         LOG.info("对接短信通道");
     }
+
+    public MemberLoginResp login(MemberLoginReq req) {
+        String mobile = req.getMobile();
+        String code = req.getCode();
+        Member memberDB = selectByMobile(mobile);
+
+        // 如果手机号不存在，则插入一条记录
+        if (ObjectUtil.isNull(memberDB)) {
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_NOT_EXIST);
+        }
+
+        // 校验短信验证码
+        if (!"8888".equals(code)) {
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_CODE_ERROR);
+        }
+
+        MemberLoginResp memberLoginResp = BeanUtil.copyProperties(memberDB, MemberLoginResp.class);
+        return memberLoginResp;
+    }
+
     private Member selectByMobile(String mobile) {
         MemberExample memberExample = new MemberExample();
         memberExample.createCriteria().andMobileEqualTo(mobile);
