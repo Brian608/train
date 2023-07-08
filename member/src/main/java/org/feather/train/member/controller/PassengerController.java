@@ -2,13 +2,14 @@ package org.feather.train.member.controller;
 
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import org.feather.train.common.context.LoginMemberContext;
 import org.feather.train.common.resp.CommonResp;
+import org.feather.train.common.resp.PageResp;
+import org.feather.train.member.req.PassengerQueryReq;
 import org.feather.train.member.req.PassengerSaveReq;
+import org.feather.train.member.resp.PassengerQueryResp;
 import org.feather.train.member.service.PassengerService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @projectName: train
@@ -29,5 +30,12 @@ public class PassengerController {
     public CommonResp<Object> save(@Valid @RequestBody PassengerSaveReq req) {
         passengerService.savePassenger(req);
         return new CommonResp<>();
+    }
+
+    @GetMapping("/query-list")
+    public CommonResp<PageResp<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req) {
+        req.setMemberId(LoginMemberContext.getId());
+        PageResp<PassengerQueryResp> list = passengerService.queryList(req);
+        return new CommonResp<>(list);
     }
 }
